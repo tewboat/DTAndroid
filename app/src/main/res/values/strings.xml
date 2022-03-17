@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">DTAndroid</string>
+    <string name="name_title">Name</string>
+    <string name="description_title">Description</string>
+    <string name="save_button_text">Save</string>
+    <string name="priority_title">Priority</string>
+    <string name="type_title">Type</string>
+    <string name="type_good">Good</string>
+    <string name="type_bad">Bad</string>
+    <string name="execution_number">Execution number</string>
+    <string name="execution_frequency">Execution frequency</string>
+    <string name="defaultExecutionNumber">1</string>
+
+    <string-array name="priorities">
+        <item>High</item>
+        <item>Medium</item>
+        <item>Low</item>
+    </string-array>
+</resources>
