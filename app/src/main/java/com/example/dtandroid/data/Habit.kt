@@ -2,6 +2,7 @@ package com.example.dtandroid.data
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
+import kotlin.random.Random
 
 @Parcelize
 data class Habit(
@@ -11,7 +12,9 @@ data class Habit(
     var type: Type = Type.Good,
     var executionNumber: Int = 0,
     var executionFrequency: String = String()
-) : Parcelable
+) : Parcelable {
+    val id: Long = Random.nextLong()
+}
 
 
 enum class Priority(val intValue: Int) {

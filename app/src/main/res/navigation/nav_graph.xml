@@ -10,13 +10,9 @@
         android:name="com.example.dtandroid.ui.HabitCreationFragment"
         android:label="Create Habit">
         <argument
-            android:name="habit"
-            app:argType="com.example.dtandroid.data.Habit"
+            android:name="id"
+            app:argType="long"
             app:nullable="true" />
-        <argument
-            android:name="type"
-            app:argType="com.example.dtandroid.data.Type"
-            app:nullable="false" />
     </fragment>
     <fragment
         android:id="@+id/habitsListFragment"
@@ -32,11 +28,11 @@
         android:label="Habits"
         tools:layout="@layout/fragment_view_pager">
         <action
-            android:id="@+id/action_viewPagerFragment4_to_habitCreationFragment"
-            app:destination="@id/habitCreationFragment" />
+            android:id="@+id/action_viewPagerFragment_to_habitsListFragment"
+            app:destination="@id/habitsListFragment" />
         <action
-            android:id="@+id/action_viewPagerFragment_to_aboutFragment"
-            app:destination="@id/aboutFragment" />
+            android:id="@+id/action_viewPagerFragment_to_habitCreationFragment"
+            app:destination="@id/habitCreationFragment" />
     </fragment>
     <fragment
         android:id="@+id/aboutFragment"

@@ -90,21 +90,21 @@
                     android:minHeight="48dp" />
             </LinearLayout>
 
-<!--            <RadioGroup-->
-<!--                android:id="@+id/radioGroup"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="16dp"-->
-<!--                android:layout_marginTop="4dp"-->
-<!--                android:layout_marginEnd="16dp"-->
-<!--                android:orientation="vertical">-->
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="16dp"
+                android:orientation="vertical">
 
-<!--                <TextView-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="@string/type_title"-->
-<!--                    android:textSize="@dimen/title_size" />-->
-<!--            </RadioGroup>-->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/type_title"
+                    android:textSize="@dimen/title_size" />
+            </RadioGroup>
 
             <LinearLayout
                 android:id="@+id/linearLayout4"

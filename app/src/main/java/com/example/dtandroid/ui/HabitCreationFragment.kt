@@ -1,7 +1,6 @@
 package com.example.dtandroid.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,32 +8,25 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.RadioButton
 import android.widget.Toast
-import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.dtandroid.R
 import com.example.dtandroid.data.Habit
 import com.example.dtandroid.data.Priority
 import com.example.dtandroid.data.Type
-import kotlinx.android.synthetic.main.fragment_habit_creation.editTextExecutionFrequency
-import kotlinx.android.synthetic.main.fragment_habit_creation.editTextExecutionNumber
-import kotlinx.android.synthetic.main.fragment_habit_creation.editTextHabitDescription
-import kotlinx.android.synthetic.main.fragment_habit_creation.editTextHabitName
-import kotlinx.android.synthetic.main.fragment_habit_creation.floatingSaveButton
-import kotlinx.android.synthetic.main.fragment_habit_creation.prioritySpinner
+import com.example.dtandroid.viewmodels.HabitViewModel
+import com.example.dtandroid.viewmodels.HabitViewModelFactory
+import kotlinx.android.synthetic.main.fragment_habit_creation.*
 
 
 class HabitCreationFragment : Fragment() {
-    private var habit: Habit? = null
-    private var type: Type? = null
     private lateinit var radioButtons: ArrayList<RadioButton>
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    private val habitViewModel: HabitViewModel by viewModels {
         arguments?.let {
             val args = HabitCreationFragmentArgs.fromBundle(it)
-            habit = args.habit
-            type = args.type
+            return@viewModels HabitViewModelFactory(args.id)
         }
+        return@viewModels HabitViewModelFactory(-1)
     }
 
     override fun onCreateView(
@@ -47,12 +39,12 @@ class HabitCreationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         fillView()
-        prePopulateData(habit)
+        prePopulateData(habitViewModel.habit)
     }
 
     private fun fillView() {
         floatingSaveButton.setOnClickListener { saveHabit() }
-        //radioButtons = fillRadioGroup()
+        radioButtons = fillRadioGroup()
         val arrayAdapter: ArrayAdapter<String> = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_spinner_item,
@@ -62,27 +54,27 @@ class HabitCreationFragment : Fragment() {
     }
 
     private fun prePopulateData(habit: Habit?) {
-        if (habit == null)
-            return
-        editTextHabitName.setText(habit.name)
-        editTextHabitDescription.setText(habit.description)
-        editTextExecutionNumber.setText(habit.executionNumber.toString())
-        editTextExecutionFrequency.setText(habit.executionFrequency)
-        //radioGroup.check(radioButtons[Type.values().indexOf(habit.type)].id)
-        prioritySpinner.setSelection(Priority.values().indexOf(habit.priority))
+        habit?.apply {
+            editTextHabitName.setText(name)
+            editTextHabitDescription.setText(description)
+            editTextExecutionNumber.setText(executionNumber.toString())
+            editTextExecutionFrequency.setText(executionFrequency)
+            radioGroup.check(radioButtons[Type.values().indexOf(type)].id)
+            prioritySpinner.setSelection(Priority.values().indexOf(priority))
+        }
     }
 
-//    private fun fillRadioGroup(): ArrayList<RadioButton> {
-//        val radioButtons = ArrayList<RadioButton>()
-//        for (idx in Type.values().indices) {
-//            val radioButton =
-//                RadioButton(requireContext()).apply { text = Type.values()[idx].toString() }
-//            radioGroup.addView(radioButton)
-//            radioButtons.add(radioButton)
-//        }
-//        radioGroup.check(radioButtons.first().id)
-//        return radioButtons
-//    }
+    private fun fillRadioGroup(): ArrayList<RadioButton> {
+        val radioButtons = ArrayList<RadioButton>()
+        for (idx in Type.values().indices) {
+            val radioButton =
+                RadioButton(requireContext()).apply { text = Type.values()[idx].toString() }
+            radioGroup.addView(radioButton)
+            radioButtons.add(radioButton)
+        }
+        radioGroup.check(radioButtons.first().id)
+        return radioButtons
+    }
 
     private fun validateFields(): Boolean {
         if (editTextHabitName.text.isEmpty()) {
@@ -106,21 +98,15 @@ class HabitCreationFragment : Fragment() {
 
     private fun saveHabit() {
         if (validateFields()) {
-            if (habit == null)
-                habit = Habit()
-            habit!!.name = editTextHabitName.text.toString()
-            habit!!.description = editTextHabitDescription.text.toString()
-            habit!!.priority = Priority.valueOf(prioritySpinner.selectedItem.toString())
-            habit!!.type = type!!
-            //Type.valueOf(requireView().findViewById<RadioButton>(radioGroup.checkedRadioButtonId).text.toString())
-            habit!!.executionNumber = editTextExecutionNumber.text.toString().toInt()
-            habit!!.executionFrequency = editTextExecutionFrequency.text.toString()
-
-            setFragmentResult("habitResult", Bundle().apply {
-                putParcelable("habit", habit)
-            })
-
-
+            habitViewModel.apply {
+                name = editTextHabitName.text.toString()
+                description = editTextHabitDescription.text.toString()
+                priority = Priority.valueOf(prioritySpinner.selectedItem.toString())
+                Type.valueOf(requireView().findViewById<RadioButton>(radioGroup.checkedRadioButtonId).text.toString())
+                executionNumber = editTextExecutionNumber.text.toString().toInt()
+                executionFrequency = editTextExecutionFrequency.text.toString()
+            }
+            habitViewModel.onSaveClick()
             findNavController().popBackStack()
         }
     }
