@@ -13,6 +13,6 @@ class HabitTypePagerAdapter(activity: FragmentActivity) : FragmentStateAdapter(a
 
     override fun createFragment(position: Int): Fragment {
         Log.d("TAG", "$position")
-        return HabitsListFragment()
+        return HabitsListFragment.newInstance(Type.values()[position])
     }
 }

@@ -8,7 +8,7 @@ import com.example.dtandroid.data.Habit
 import com.example.dtandroid.data.Priority
 import com.example.dtandroid.data.Type
 
-class HabitViewModel(private val id: Long) : ViewModel() {
+class HabitViewModel(private val id: Int) : ViewModel() {
     val habit = HabitsRepository.getById(id)
 
     var name = habit?.name ?: String()
@@ -21,11 +21,18 @@ class HabitViewModel(private val id: Long) : ViewModel() {
     fun onSaveClick() {
         if (habit == null) {
             val newHabit =
-                Habit(name, description, priority, type, executionNumber, executionFrequency)
+                Habit(
+                    name = name,
+                    description = description,
+                    priority = priority,
+                    type = type,
+                    executionNumber = executionNumber,
+                    executionFrequency = executionFrequency)
             HabitsRepository.add(newHabit)
         }
         else {
             val updatedHabit = habit.copy(
+                id = habit.id,
                 name = name,
                 description = description,
                 priority = priority,
@@ -38,7 +45,7 @@ class HabitViewModel(private val id: Long) : ViewModel() {
     }
 }
 
-class HabitViewModelFactory(private val habitId: Long?) : ViewModelProvider.Factory {
+class HabitViewModelFactory(private val habitId: Int?) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (habitId != null)
             return HabitViewModel(habitId) as T

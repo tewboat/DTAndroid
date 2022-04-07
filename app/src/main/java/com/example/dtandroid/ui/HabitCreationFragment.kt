@@ -48,7 +48,7 @@ class HabitCreationFragment : Fragment() {
         val arrayAdapter: ArrayAdapter<String> = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_spinner_item,
-            Priority.values().map { priority -> priority.toString() }
+            Priority.values().map { priority -> resources.getString(priority.res) }
         ).apply { setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item) }
         prioritySpinner.adapter = arrayAdapter
     }
@@ -102,7 +102,7 @@ class HabitCreationFragment : Fragment() {
                 name = editTextHabitName.text.toString()
                 description = editTextHabitDescription.text.toString()
                 priority = Priority.valueOf(prioritySpinner.selectedItem.toString())
-                Type.valueOf(requireView().findViewById<RadioButton>(radioGroup.checkedRadioButtonId).text.toString())
+                type = Type.valueOf(requireView().findViewById<RadioButton>(radioGroup.checkedRadioButtonId).text.toString())
                 executionNumber = editTextExecutionNumber.text.toString().toInt()
                 executionFrequency = editTextExecutionFrequency.text.toString()
             }

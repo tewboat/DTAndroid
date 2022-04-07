@@ -5,16 +5,13 @@
       <map>
         <entry key="..\:/Android/DTAndroid/app/src/main/res/layout/activity_habit_creation.xml" value="0.2694643843180563" />
         <entry key="..\:/Android/DTAndroid/app/src/main/res/layout/activity_main.xml" value="0.22826086956521738" />
-        <entry key="..\:/Android/DTAndroid/app/src/main/res/layout/fragment_about.xml" value="0.38125" />
-        <entry key="..\:/Android/DTAndroid/app/src/main/res/layout/fragment_habit_creation.xml" value="0.38125" />
-        <entry key="..\:/Android/DTAndroid/app/src/main/res/layout/fragment_habits_list.xml" value="0.38125" />
-        <entry key="..\:/Android/DTAndroid/app/src/main/res/layout/fragment_view_pager.xml" value="0.1662971175166297" />
         <entry key="..\:/Android/DTAndroid/app/src/main/res/layout/habits_list_item.xml" value="0.38125" />
-        <entry key="..\:/Android/DTAndroid/app/src/main/res/menu/nav_drawer_menu.xml" value="0.38125" />
+        <entry key="..\:/Users/zdrav/AndroidStudioProjects/DTAndroid2/app/src/main/res/layout/fragment_habits_list.xml" value="0.19166666666666668" />
+        <entry key="..\:/Users/zdrav/AndroidStudioProjects/DTAndroid2/app/src/main/res/layout/fragment_view_pager.xml" value="0.18" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

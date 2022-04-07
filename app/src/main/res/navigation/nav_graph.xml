@@ -11,8 +11,7 @@
         android:label="Create Habit">
         <argument
             android:name="id"
-            app:argType="long"
-            app:nullable="true" />
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/habitsListFragment"

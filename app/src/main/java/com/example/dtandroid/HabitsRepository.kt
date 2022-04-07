@@ -6,17 +6,31 @@ import androidx.lifecycle.MutableLiveData
 import com.example.dtandroid.data.Habit
 
 object HabitsRepository : Repository<Habit> {
-    private val habitsList = MutableLiveData<ArrayList<Habit>>(ArrayList())
+    private val habitsList = ArrayList<Habit>()
+    private val habitsListLiveData: MutableLiveData<List<Habit>> = MutableLiveData(habitsList)
 
-    override fun getById(id: Long): Habit? {
-        return habitsList.value!!.firstOrNull() { it.id == id }
+    override fun getById(id: Int): Habit? {
+        return habitsList.firstOrNull { it.id == id }
     }
 
 
-    override fun deleteById(id: Long) {
+    override fun deleteById(id: Int) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            habitsList.value!!.removeIf { it.id == id }
+            habitsList.removeIf { it.id == id }
         }
+    }
+
+    fun filter(filtering: (Habit) -> Boolean) {
+        habitsListLiveData.value = habitsList.filter(filtering)
+    }
+
+    fun <T : Comparable<T>> filterThenSort(filtering: (Habit) -> Boolean, sort: (Habit) -> T) {
+        habitsListLiveData.value = habitsList.filter(filtering).sortedBy { sort(it) }
+    }
+
+    fun <T : Comparable<T>> sort(selector: (Habit) -> T) {
+        if (habitsListLiveData.value!!.isEmpty()) return
+        habitsListLiveData.value = habitsListLiveData.value?.sortedBy { selector(it) } as List<Habit>
     }
 
     override fun deleteAll() {
@@ -24,20 +38,24 @@ object HabitsRepository : Repository<Habit> {
     }
 
     override fun update(obj: Habit) {
-        val index = habitsList.value!!.indexOfFirst { it.id == obj.id }
-        habitsList.value!![index] = obj
+        val index = habitsList.indexOfFirst { it.id == obj.id }
+        if (index == -1) return
+        habitsList[index] = obj
+        habitsListLiveData.value = habitsList
     }
 
     override fun add(obj: Habit) {
-        habitsList.value!!.add(obj)
+        habitsList.add(obj)
+        habitsListLiveData.value = habitsList
     }
 
     override fun addAll(objects: List<Habit>) {
-        habitsList.value!!.addAll(objects)
+        habitsList.addAll(objects)
+        habitsListLiveData.value = habitsList
     }
 
 
-    override fun getAll(): LiveData<ArrayList<Habit>> {
-        return habitsList
+    override fun getAll(): LiveData<List<Habit>> {
+        return habitsListLiveData
     }
 }

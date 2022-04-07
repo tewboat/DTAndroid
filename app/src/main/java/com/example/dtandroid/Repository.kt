@@ -5,9 +5,9 @@ import com.example.dtandroid.data.Habit
 
 
 interface Repository<T> {
-    fun getById(id: Long): Habit?
-    fun getAll(): LiveData<ArrayList<T>>
-    fun deleteById(id: Long)
+    fun getById(id: Int): Habit?
+    fun getAll(): LiveData<List<Habit>>
+    fun deleteById(id: Int)
     fun deleteAll()
     fun update(obj: T)
     fun add(obj: T)

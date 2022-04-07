@@ -9,7 +9,7 @@ import com.example.dtandroid.data.Habit
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.habits_list_item.view.*
 
-class HabitsListAdapter(private var habits: ArrayList<Habit>, private val onItemClick: OnItemClick) :
+class HabitsListAdapter(private var habits: List<Habit>, private val onItemClick: OnItemClick) :
     RecyclerView.Adapter<HabitsListAdapter.HabitsViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HabitsViewHolder {
@@ -23,19 +23,8 @@ class HabitsListAdapter(private var habits: ArrayList<Habit>, private val onItem
 
     override fun getItemCount(): Int = habits.size
 
-    fun addItem(habit: Habit){
-        habits.add(habit)
-        notifyItemInserted(habits.size - 1)
-    }
-
-    fun setHabitsList(habitsList: ArrayList<Habit>){
+    fun setHabitsList(habitsList: List<Habit>){
         habits = habitsList
-        notifyDataSetChanged()
-    }
-
-    fun updateItem(habit: Habit, position: Int){
-        habits[position] = habit
-        notifyItemChanged(position)
     }
 
     inner class HabitsViewHolder(override val containerView: View) :
