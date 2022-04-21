@@ -22,30 +22,6 @@
             android:layout_height="match_parent"
             android:layout_gravity="top" />
 
-        <LinearLayout
-            android:id="@+id/bottomSheet"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:background="#B1A9C3"
-            android:orientation="vertical"
-            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
-            app:layout_insetEdge="bottom"
-            android:padding="12dp">
-
-            <Spinner
-                android:id="@+id/sortSpinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"/>
-
-            <EditText
-                android:id="@+id/searchEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/search"
-                android:minHeight="48dp" />
-        </LinearLayout>
-
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floatingAddButton"
             android:layout_width="wrap_content"

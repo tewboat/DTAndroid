@@ -24,9 +24,9 @@ class HabitCreationFragment : Fragment() {
     private val habitViewModel: HabitViewModel by viewModels {
         arguments?.let {
             val args = HabitCreationFragmentArgs.fromBundle(it)
-            return@viewModels HabitViewModelFactory(args.id)
+            return@viewModels HabitViewModelFactory(requireContext().applicationContext, args.id)
         }
-        return@viewModels HabitViewModelFactory(-1)
+        return@viewModels HabitViewModelFactory(requireContext().applicationContext, -1)
     }
 
     override fun onCreateView(

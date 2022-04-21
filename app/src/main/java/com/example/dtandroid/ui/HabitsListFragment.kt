@@ -6,16 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.dtandroid.R
 import com.example.dtandroid.data.Habit
 import com.example.dtandroid.data.Type
 import com.example.dtandroid.viewmodels.HabitsViewModel
+import com.example.dtandroid.viewmodels.HabitsViewModelFactory
 import kotlinx.android.synthetic.main.fragment_habits_list.habitsRecyclerView
 
 class HabitsListFragment : Fragment(), OnItemClick {
     private lateinit var habitsListAdapter: HabitsListAdapter
-    private val habitsViewModel: HabitsViewModel by activityViewModels()
+    private val habitsViewModel: HabitsViewModel by viewModels {
+        return@viewModels HabitsViewModelFactory(requireContext().applicationContext)
+    }
     private var type: Type? = null
 
     override fun onCreateView(
@@ -29,11 +33,11 @@ class HabitsListFragment : Fragment(), OnItemClick {
         super.onViewCreated(view, savedInstanceState)
 
         type = arguments?.getSerializable(TYPE_BUNDLE_KEY) as Type
-
+        var data = habitsViewModel.getHabits{it.type == type}
         habitsListAdapter = HabitsListAdapter(habitsViewModel.getHabits{it.type == type}, this)
         habitsRecyclerView.adapter = habitsListAdapter
 
-        habitsViewModel.getLiveData().observe(viewLifecycleOwner) { habits ->
+        habitsViewModel.getLiveData()?.observe(viewLifecycleOwner) { habits ->
             habitsListAdapter.setHabitsList(habits.filter { it.type == type })
             habitsListAdapter.notifyDataSetChanged()
         }

@@ -17,6 +17,12 @@
         <item>Low</item>
     </string-array>
 
+    <string-array name="sorting">
+        <item>By name</item>
+        <item>By priority</item>
+        <item>By execution number</item>
+    </string-array>
+
     <string name="title_habits">Habits</string>
     <string name="title_about">About</string>
     <string name="app_description"><![CDATA[Habit is a habit tracker app that helps you to build good habits, reach your goals. It will remind you when needed, track habits with stats and notes, analyze habits with charts, therefore reach your goals at ease. It is also the first habit app that let you and your friends build habit together by remind and encourage each other. ----Useful Features---- - Different types of habits: simple or quantized habits for better tracking - Group habits: build, remind & track habits with people you care - Powerful stats: detailed information to evaluate your results - Yearly view: unique yearly view put everyday results together - Repeated reminders: you can set more than one reminder for any habit - Custom reminder sound: you can record or import ringtone - Location reminders: remind you when leaving or entering a location - Today widget: quickly accessing your habits from notification center - Habit memo: your own habit diary - Habit ideas: discover new habits that worth trying (will be updated frequently) - Focus time: for time related habits you can have a helpful timer - Cloud backup & sync: use on your iPhone and iPad - Safety lock: protect your privacy with faceID or touchID - Compete with friend: see who\'s doing better - Dark mode: for those black lovers - Upcoming features: we will add more features like location-based reminder, monthly report, review mode, auto checkin, searching habit buddy online, habit note, privacy habits and more… With Habit, it will make your daily routine simple, make your mind clear, make your goal achievable, make your life better, and finally make your dream come true. Download now, you wont regret.]]></string>
