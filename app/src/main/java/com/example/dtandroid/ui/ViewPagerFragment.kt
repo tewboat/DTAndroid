@@ -25,10 +25,6 @@ import kotlinx.android.synthetic.main.fragment_view_pager.*
 
 class ViewPagerFragment : Fragment() {
 
-    private val habitsViewModel: HabitsViewModel by viewModels {
-            return@viewModels HabitsViewModelFactory(requireContext().applicationContext)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

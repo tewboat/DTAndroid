@@ -1,17 +1,28 @@
 package com.example.dtandroid.viewmodels
 
 import android.content.Context
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.*
 
 import com.example.dtandroid.data.Habit
 import com.example.dtandroid.data.HabitsDatabase
 import com.example.dtandroid.data.Priority
 import com.example.dtandroid.data.Type
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
-class HabitViewModel(context: Context,  val id: Int) : ViewModel() {
+class HabitViewModel(context: Context, val id: Int) : ViewModel() {
+    private val saveStatus = MutableLiveData<Boolean>()
     private val dao = HabitsDatabase.getDatabase(context).habitDao()
-    val habit = dao.getHabitById(id)
+    val onSaveClickStatus: LiveData<Boolean> = saveStatus
+
+    val habit = runBlocking {
+        withContext(Dispatchers.IO) {
+            dao.getHabitById(id)
+        }
+    }
+
 
     var name = habit?.name ?: String()
     var description = habit?.description ?: String()
@@ -21,35 +32,43 @@ class HabitViewModel(context: Context,  val id: Int) : ViewModel() {
     var executionFrequency = habit?.executionFrequency ?: String()
 
     fun onSaveClick() {
-        if (habit == null) {
-            val newHabit =
-                Habit(
-                    name = name,
-                    description = description,
-                    priority = priority,
-                    type = type,
-                    executionNumber = executionNumber,
-                    executionFrequency = executionFrequency
-                )
-            dao.insertAll(newHabit)
-        } else {
-            habit.let {
-                it.name = name
-                it.description = description
-                it.priority = priority
-                it.type = type
-                it.executionNumber = executionNumber
-                it.executionFrequency = executionFrequency
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                try {
+                    habit?.let { h ->
+                        h.name = name
+                        h.description = description
+                        h.priority = priority
+                        h.type = type
+                        h.executionNumber = executionNumber
+                        h.executionFrequency = executionFrequency
+                        dao.update(h)
+                    } ?: run {
+                        dao.insertAll(
+                            Habit(
+                                name = name,
+                                description = description,
+                                priority = priority,
+                                type = type,
+                                executionNumber = executionNumber,
+                                executionFrequency = executionFrequency
+                            )
+                        )
+                    }
+                    saveStatus.postValue(true)
+                } catch (e: Exception) {
+                    saveStatus.postValue(false)
+                }
             }
-            dao.update(habit)
         }
     }
 }
 
-class HabitViewModelFactory(private val context: Context,  private val habitId: Int?) : ViewModelProvider.Factory {
+class HabitViewModelFactory(private val context: Context, private val habitId: Int?) :
+    ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (habitId != null)
             return HabitViewModel(context, habitId) as T
-        return HabitViewModel(context,-1) as T
+        return HabitViewModel(context, -1) as T
     }
 }

@@ -40,6 +40,18 @@ class HabitCreationFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         fillView()
         prePopulateData(habitViewModel.habit)
+
+        habitViewModel.onSaveClickStatus.observe(viewLifecycleOwner) { saved ->
+            if (saved) {
+                findNavController().popBackStack()
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    resources.getString(R.string.error_while_saving_habit_message),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
     }
 
     private fun fillView() {
@@ -80,7 +92,7 @@ class HabitCreationFragment : Fragment() {
         if (editTextHabitName.text.isEmpty()) {
             Toast.makeText(
                 requireContext(),
-                "Fill in the name field",
+                resources.getString(R.string.name_field_not_filled_message),
                 Toast.LENGTH_LONG
             ).show()
             return false
@@ -88,7 +100,7 @@ class HabitCreationFragment : Fragment() {
         if (editTextExecutionNumber.text.isEmpty()) {
             Toast.makeText(
                 requireContext(),
-                "Fill in the execution number field",
+                resources.getString(R.string.execution_number_field_not_filled_message),
                 Toast.LENGTH_LONG
             ).show()
             return false
@@ -102,12 +114,13 @@ class HabitCreationFragment : Fragment() {
                 name = editTextHabitName.text.toString()
                 description = editTextHabitDescription.text.toString()
                 priority = Priority.valueOf(prioritySpinner.selectedItem.toString())
-                type = Type.valueOf(requireView().findViewById<RadioButton>(radioGroup.checkedRadioButtonId).text.toString())
+                type =
+                    Type.valueOf(requireView().findViewById<RadioButton>(radioGroup.checkedRadioButtonId).text.toString())
                 executionNumber = editTextExecutionNumber.text.toString().toInt()
                 executionFrequency = editTextExecutionFrequency.text.toString()
             }
+
             habitViewModel.onSaveClick()
-            findNavController().popBackStack()
         }
     }
 }

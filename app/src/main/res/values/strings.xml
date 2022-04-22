@@ -34,4 +34,8 @@
     <string name="priority_high">High</string>
     <string name="priority_medium">Medium</string>
     <string name="priority_low">Low</string>
+
+    <string name="name_field_not_filled_message">Fill in the name field</string>
+    <string name="execution_number_field_not_filled_message">Fill in the execution number field</string>
+    <string name="error_while_saving_habit_message">An error occurred while saving the habit</string>
 </resources>

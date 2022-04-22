@@ -12,7 +12,10 @@ interface HabitDao {
     fun getAllByIds(habitsIds: IntArray): LiveData<List<Habit>>
 
     @Query("select * from habits where id = (:habitId)")
-    fun getHabitById(habitId: Int): Habit
+    fun getHabitById(habitId: Int): Habit?
+
+//    @Query("select * from habits where id = (:habitId)")
+//    fun getHabitById(habitId: Int): LiveData
 
     @Insert
     fun insertAll(vararg habit: Habit)

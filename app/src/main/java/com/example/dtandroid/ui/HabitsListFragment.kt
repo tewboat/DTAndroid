@@ -33,11 +33,10 @@ class HabitsListFragment : Fragment(), OnItemClick {
         super.onViewCreated(view, savedInstanceState)
 
         type = arguments?.getSerializable(TYPE_BUNDLE_KEY) as Type
-        var data = habitsViewModel.getHabits{it.type == type}
         habitsListAdapter = HabitsListAdapter(habitsViewModel.getHabits{it.type == type}, this)
         habitsRecyclerView.adapter = habitsListAdapter
 
-        habitsViewModel.getLiveData()?.observe(viewLifecycleOwner) { habits ->
+        habitsViewModel.getLiveData().observe(viewLifecycleOwner) { habits ->
             habitsListAdapter.setHabitsList(habits.filter { it.type == type })
             habitsListAdapter.notifyDataSetChanged()
         }

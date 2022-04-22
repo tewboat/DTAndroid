@@ -8,18 +8,21 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.dtandroid.data.Habit
 import com.example.dtandroid.data.HabitsDatabase
 import com.example.dtandroid.data.Sort
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 
 class HabitsViewModel(context: Context) : ViewModel() {
     private val dao = HabitsDatabase.getDatabase(context).habitDao()
-    private val habitsList = dao.getAll()
+    private val habitsList = runBlocking {
+        withContext(Dispatchers.IO) {
+            dao.getAll()
+        }
+    }
 
     fun getLiveData(): LiveData<List<Habit>> {
         return habitsList
-    }
-
-    fun getHabits(): List<Habit> {
-        return habitsList.value ?: ArrayList()
     }
 
     fun getHabits(filtering: (Habit) -> Boolean): List<Habit> {
