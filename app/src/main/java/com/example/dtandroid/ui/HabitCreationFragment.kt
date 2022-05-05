@@ -17,6 +17,7 @@ import com.example.dtandroid.data.Type
 import com.example.dtandroid.viewmodels.HabitViewModel
 import com.example.dtandroid.viewmodels.HabitViewModelFactory
 import kotlinx.android.synthetic.main.fragment_habit_creation.*
+import kotlinx.coroutines.runBlocking
 
 
 class HabitCreationFragment : Fragment() {
@@ -26,7 +27,7 @@ class HabitCreationFragment : Fragment() {
             val args = HabitCreationFragmentArgs.fromBundle(it)
             return@viewModels HabitViewModelFactory(requireContext().applicationContext, args.id)
         }
-        return@viewModels HabitViewModelFactory(requireContext().applicationContext, -1)
+        return@viewModels HabitViewModelFactory(requireContext().applicationContext, String())
     }
 
     override fun onCreateView(
@@ -70,7 +71,7 @@ class HabitCreationFragment : Fragment() {
             editTextHabitName.setText(name)
             editTextHabitDescription.setText(description)
             editTextExecutionNumber.setText(executionNumber.toString())
-            editTextExecutionFrequency.setText(executionFrequency)
+            editTextExecutionFrequency.setText(executionFrequency.toString())
             radioGroup.check(radioButtons[Type.values().indexOf(type)].id)
             prioritySpinner.setSelection(Priority.values().indexOf(priority))
         }
@@ -105,6 +106,22 @@ class HabitCreationFragment : Fragment() {
             ).show()
             return false
         }
+        if (editTextExecutionFrequency.text.isEmpty()) {
+            Toast.makeText(
+                requireContext(),
+                resources.getString(R.string.execution_frequency_field_not_filled_message),
+                Toast.LENGTH_LONG
+            ).show()
+            return false
+        }
+        if (editTextHabitDescription.text.isEmpty()) {
+            Toast.makeText(
+                requireContext(),
+                resources.getString(R.string.execution_frequency_field_not_filled_message),
+                Toast.LENGTH_LONG
+            ).show()
+            return false
+        }
         return true
     }
 
@@ -117,7 +134,7 @@ class HabitCreationFragment : Fragment() {
                 type =
                     Type.valueOf(requireView().findViewById<RadioButton>(radioGroup.checkedRadioButtonId).text.toString())
                 executionNumber = editTextExecutionNumber.text.toString().toInt()
-                executionFrequency = editTextExecutionFrequency.text.toString()
+                executionFrequency = editTextExecutionFrequency.text.toString().toInt()
             }
 
             habitViewModel.onSaveClick()

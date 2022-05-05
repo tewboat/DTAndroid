@@ -37,5 +37,10 @@
 
     <string name="name_field_not_filled_message">Fill in the name field</string>
     <string name="execution_number_field_not_filled_message">Fill in the execution number field</string>
-    <string name="error_while_saving_habit_message">An error occurred while saving the habit</string>
+    <string name="execution_frequency_field_not_filled_message">Fill in the execution frequency field</string>
+    <string name="description_field_not_filled_message">Fill in the description field</string>
+    <string name="error_while_saving_habit_message">An error occurred while saving the habit. Check your Internet connection.</string>
+    <string name="error_while_getting_habits_message">An error occurred while getting the habits list. Check your Internet connection.</string>
+    <string name="defaultExecutionFrequency">1</string>
+    <string name="avatar">avatar</string>
 </resources>

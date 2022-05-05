@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.dtandroid.R
@@ -31,7 +30,6 @@ class HabitsListFragment : Fragment(), OnItemClick {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         type = arguments?.getSerializable(TYPE_BUNDLE_KEY) as Type
         habitsListAdapter = HabitsListAdapter(habitsViewModel.getHabits{it.type == type}, this)
         habitsRecyclerView.adapter = habitsListAdapter
@@ -40,12 +38,14 @@ class HabitsListFragment : Fragment(), OnItemClick {
             habitsListAdapter.setHabitsList(habits.filter { it.type == type })
             habitsListAdapter.notifyDataSetChanged()
         }
+
+        habitsViewModel.tryLoadData()
     }
 
 
     override fun onClick(habit: Habit, position: Int) {
         val action =
-            ViewPagerFragmentDirections.actionViewPagerFragmentToHabitCreationFragment(habit.id)
+            ViewPagerFragmentDirections.actionViewPagerFragmentToHabitCreationFragment(habit.uid)
         findNavController().navigate(action)
     }
 

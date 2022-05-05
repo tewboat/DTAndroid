@@ -1,14 +1,17 @@
 package com.example.dtandroid.viewmodels
 
-import android.app.Application
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.example.dtandroid.data.Habit
 import com.example.dtandroid.data.HabitsDatabase
+import com.example.dtandroid.data.RemoteRepository
 import com.example.dtandroid.data.Sort
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
@@ -33,20 +36,31 @@ class HabitsViewModel(context: Context) : ViewModel() {
         //HabitsRepository.filter(filtering)
     }
 
-    fun <T : Comparable<T>> filterThenSort(filtering: (Habit) -> Boolean, selector: (Habit) -> T) {
-        //HabitsRepository.filterThenSort(filtering, selector)
-    }
 
     fun <T : Comparable<T>> sort(sort: Sort<T>) {
         //HabitsRepository.sort(selector)
     }
 
-    fun add(habit: Habit) {
-        //HabitsRepository.add(habit)
+    fun addAll(vararg habit: Habit) {
+        dao.insert(*habit)
     }
 
     fun delete(habit: Habit) {
         //HabitsRepository.deleteById(habit.id)
+    }
+
+    fun tryLoadData() {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                try {
+                    RemoteRepository.getListHabits().let {
+                        dao.insert(it)
+                    }
+                } catch (e: Exception){
+                    Log.d("HabitsViewModel", e.message.toString())
+                }
+            }
+        }
     }
 }
 

@@ -52,7 +52,7 @@ class ViewPagerFragment : Fragment() {
     private fun setOnClickListeners(){
         floatingAddButton.setOnClickListener {
             val action =
-                ViewPagerFragmentDirections.actionViewPagerFragmentToHabitCreationFragment(-1)
+                ViewPagerFragmentDirections.actionViewPagerFragmentToHabitCreationFragment(String())
             findNavController().navigate(action)
         }
     }

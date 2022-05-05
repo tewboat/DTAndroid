@@ -127,6 +127,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
                     android:text="@string/defaultExecutionNumber"
+                    android:maxLength="5"
                     android:minHeight="48dp"
                     android:textSize="@dimen/enter_size" />
             </LinearLayout>
@@ -150,9 +151,11 @@
                     android:id="@+id/editTextExecutionFrequency"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text"
+                    android:inputType="numberDecimal"
+                    android:text="@string/defaultExecutionFrequency"
+                    android:maxLength="5"
                     android:minHeight="48dp"
-                    android:textSize="@dimen/enter_size" />
+                    android:textSize="@dimen/enter_size"/>
             </LinearLayout>
 
         </LinearLayout>

@@ -26,13 +26,18 @@
             app:navGraph="@navigation/nav_graph" />
     </LinearLayout>
 
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:contentDescription="@string/avatar" />
+
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        app:menu="@menu/nav_drawer_menu" />
+        app:menu="@menu/nav_drawer_menu"/>
 
 
 </androidx.drawerlayout.widget.DrawerLayout>
