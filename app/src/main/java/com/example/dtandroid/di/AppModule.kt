@@ -1,24 +1,42 @@
-package com.example.dtandroid.modules
+package com.example.dtandroid.di
 
 import android.content.Context
-import androidx.lifecycle.asLiveData
 import androidx.room.Room
 import com.example.data.HabitsDatabase
-import com.example.data.json.HabitWithDoneDatesJsonDeserializer
 import com.example.data.repositories.DoneDateDatabaseRepository
 import com.example.data.repositories.HabitDatabaseRepository
 import com.example.data.repositories.HabitWithDoneDatesDatabaseRepository
-import com.example.domain.entities.DoneDate
-import com.example.domain.interfaces.DatabaseRepository
 import com.example.domain.usecases.local.*
+import com.example.domain.usecases.remote.DoneRemoteHabitUseCase
+import com.example.domain.usecases.remote.LoadRemoteHabitsUseCase
+import com.example.dtandroid.presentation.ui.HabitsListFragment
+import com.example.dtandroid.presentation.viewmodels.HabitViewModelFactory
+import com.example.dtandroid.presentation.viewmodels.HabitsViewModelFactory
 import dagger.Module
 import dagger.Provides
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.observeOn
 import javax.inject.Singleton
 
-@Module
-class HabitsDatabaseModule(private val applicationContext: Context) {
+@Module()
+class AppModule(private val applicationContext: Context) {
+
+    @Provides
+    @Singleton
+    fun provideHabitsViewModelFactory(
+        loadAllHabitsUseCase: LoadAllHabitsWithDoneDatesUseCase,
+        loadRemoteHabitsUseCase: LoadRemoteHabitsUseCase,
+        doneRemoteHabitUseCase: DoneRemoteHabitUseCase,
+        doneHabitUseCase: DoneHabitUseCase,
+        saveHabitsWithDoneDatesUseCase: SaveHabitsWithDoneDatesUseCase
+    ): HabitsViewModelFactory {
+        return HabitsViewModelFactory(
+            loadAllHabitsUseCase,
+            loadRemoteHabitsUseCase,
+            doneRemoteHabitUseCase,
+            doneHabitUseCase,
+            saveHabitsWithDoneDatesUseCase
+        )
+    }
 
     @Provides
     fun provideSaveHabitsWithDoneDatesUseCase(habitRepository: HabitWithDoneDatesDatabaseRepository): SaveHabitsWithDoneDatesUseCase {

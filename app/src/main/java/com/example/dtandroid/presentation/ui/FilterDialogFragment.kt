@@ -13,27 +13,27 @@ import com.example.dtandroid.R
 import com.example.dtandroid.presentation.viewmodels.HabitsViewModel
 import com.example.dtandroid.presentation.viewmodels.HabitsViewModelFactory
 import kotlinx.android.synthetic.main.fragment_filter_dialog.*
+import javax.inject.Inject
 
 
 class FilterDialogFragment : BottomSheetDialogFragment() {
-    private val applicationComponent = (requireActivity().application as HabitApplication)
-        .applicationComponent
+    private val applicationComponent by lazy {
+        (requireActivity().application as HabitApplication)
+            .applicationComponent
+    }
+
+    @Inject
+    lateinit var habitsViewModelFactory: HabitsViewModelFactory
 
     private val habitsViewModel: HabitsViewModel by viewModels {
-        return@viewModels HabitsViewModelFactory(
-            applicationComponent.getLoadAllHabitsWithDoneDatesUseCase(),
-            applicationComponent.getLoadRemoteHabitsUseCase(),
-            applicationComponent.getDoneRemoteHabitUseCase(),
-            applicationComponent.getDoneHabitUseCase(),
-            applicationComponent.getSaveHabitsWithDoneDatesUseCase()
-        )
+        return@viewModels habitsViewModelFactory
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
+        applicationComponent.inject(this)
         return inflater.inflate(R.layout.fragment_filter_dialog, container, false)
     }
 

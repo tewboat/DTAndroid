@@ -1,4 +1,4 @@
-package com.example.dtandroid.modules
+package com.example.dtandroid.di
 
 import com.example.data.DoubletappApi
 import com.example.data.json.DoneDateJsonDeserializer
@@ -23,7 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
-class HabitsRemoteModule {
+class RemoteModule {
 
     @Provides
     fun provideLoadRemoteHabitsUseCase(habitRemoteRepository: HabitRemoteRepository) : LoadRemoteHabitsUseCase {

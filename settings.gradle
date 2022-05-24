@@ -13,7 +13,6 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "DTAndroid"
-include ':presentation'
-include ':data2'
+include ':app'
 include ':domain'
 include ':data'

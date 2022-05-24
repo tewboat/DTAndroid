@@ -1,7 +1,9 @@
 package com.example.dtandroid
 
 import android.app.Application
-import com.example.dtandroid.modules.HabitsDatabaseModule
+import com.example.dtandroid.di.AppModule
+import com.example.dtandroid.di.ApplicationComponent
+import com.example.dtandroid.di.DaggerApplicationComponent
 
 class HabitApplication : Application() {
     lateinit var applicationComponent: ApplicationComponent
@@ -11,7 +13,7 @@ class HabitApplication : Application() {
         super.onCreate()
         applicationComponent = DaggerApplicationComponent
             .builder()
-            .habitsDatabaseModule(HabitsDatabaseModule(this))
+            .appModule(AppModule(this))
             .build()
     }
 }

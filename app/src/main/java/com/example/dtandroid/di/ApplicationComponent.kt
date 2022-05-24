@@ -1,18 +1,25 @@
-package com.example.dtandroid
+package com.example.dtandroid.di
 
 import com.example.domain.usecases.local.*
 import com.example.domain.usecases.remote.DeleteRemoteHabitUseCase
 import com.example.domain.usecases.remote.DoneRemoteHabitUseCase
 import com.example.domain.usecases.remote.LoadRemoteHabitsUseCase
 import com.example.domain.usecases.remote.SendRemoteHabitUseCase
-import com.example.dtandroid.modules.HabitsDatabaseModule
-import com.example.dtandroid.modules.HabitsRemoteModule
+import com.example.dtandroid.di.AppModule
+import com.example.dtandroid.di.RemoteModule
+import com.example.dtandroid.presentation.ui.FilterDialogFragment
+import com.example.dtandroid.presentation.ui.HabitCreationFragment
+import com.example.dtandroid.presentation.ui.HabitsListFragment
 import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [HabitsDatabaseModule::class, HabitsRemoteModule::class])
+@Component(modules = [AppModule::class, RemoteModule::class])
 interface ApplicationComponent {
+
+    fun inject(fragment: HabitsListFragment)
+
+    fun inject(fragment: FilterDialogFragment)
 
     fun getLoadHabitUseCase(): LoadHabitUseCase
 

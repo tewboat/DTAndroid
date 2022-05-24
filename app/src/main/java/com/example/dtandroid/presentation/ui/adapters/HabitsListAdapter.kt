@@ -3,18 +3,29 @@ package com.example.dtandroid.presentation.ui.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dtandroid.R
 import com.example.domain.entities.Habit
 import com.example.domain.entities.relations.HabitWithDoneDates
+import com.example.dtandroid.utils.HabitsDiffCallback
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.habits_list_item.view.*
 
 class HabitsListAdapter(
-    private var habits: List<HabitWithDoneDates>,
+    private var habits: MutableList<HabitWithDoneDates>,
     private val onItemClick: OnItemClick
 ) :
     RecyclerView.Adapter<HabitsListAdapter.HabitsViewHolder>() {
+
+    fun updateHabitsListItems(habits: List<HabitWithDoneDates>){
+        val diffCallback = HabitsDiffCallback(this.habits, habits)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
+
+        this.habits.clear()
+        this.habits.addAll(habits)
+        diffResult.dispatchUpdatesTo(this)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HabitsViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -26,10 +37,6 @@ class HabitsListAdapter(
     }
 
     override fun getItemCount(): Int = habits.size
-
-    fun setHabitsList(habitsList: List<HabitWithDoneDates>) {
-        habits = habitsList
-    }
 
     inner class HabitsViewHolder(override val containerView: View) :
         RecyclerView.ViewHolder(containerView), LayoutContainer {

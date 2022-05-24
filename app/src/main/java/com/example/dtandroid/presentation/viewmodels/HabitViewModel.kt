@@ -10,8 +10,10 @@ import com.example.domain.usecases.local.UpdateHabitUseCase
 import com.example.domain.usecases.remote.SendRemoteHabitUseCase
 
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import java.lang.NullPointerException
 
 class HabitViewModel(
     private val loadHabitUseCase: LoadHabitUseCase,
@@ -37,9 +39,8 @@ class HabitViewModel(
     var executionNumber = habit?.count ?: 0
     var executionFrequency = habit?.frequency ?: 0
 
-    //todo перенести смену контекста
     fun onSaveClick() {
-        runBlocking {
+        viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 var isComplete = false
                 var tries = 0
@@ -68,7 +69,7 @@ class HabitViewModel(
                                 newHabit.uid = it
                                 saveHabitUseCase.saveHabit(newHabit)
                             } ?: {
-                                //todo сохраненеи в отдельную таблицу для последующей отправки
+                                throw NullPointerException()
                             }
                         }
                         isComplete = true

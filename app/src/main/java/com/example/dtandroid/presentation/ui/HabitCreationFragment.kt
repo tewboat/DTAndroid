@@ -11,7 +11,7 @@ import android.widget.RadioButton
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.dtandroid.ApplicationComponent
+import com.example.dtandroid.di.ApplicationComponent
 import com.example.dtandroid.HabitApplication
 import com.example.dtandroid.R
 import com.example.domain.entities.Habit
@@ -23,7 +23,10 @@ import kotlinx.android.synthetic.main.fragment_habit_creation.*
 
 
 class HabitCreationFragment : Fragment() {
-    private var applicationComponent: ApplicationComponent? = null
+    private val applicationComponent by lazy {
+        (requireActivity().application as HabitApplication)
+            .applicationComponent
+    }
 
     private var habitViewModel: HabitViewModel? = null
 
@@ -39,7 +42,6 @@ class HabitCreationFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         val application = context.applicationContext as HabitApplication
-        applicationComponent = application.applicationComponent
         habitViewModel = getHabitViewModel(application.applicationComponent)
     }
 

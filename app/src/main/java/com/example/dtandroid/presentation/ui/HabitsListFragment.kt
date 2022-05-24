@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.example.domain.entities.DoneDate
 import com.example.dtandroid.HabitApplication
 import com.example.dtandroid.R
 import com.example.domain.entities.Type
@@ -19,20 +18,19 @@ import com.example.dtandroid.presentation.ui.adapters.OnItemClick
 import com.example.dtandroid.presentation.viewmodels.HabitsViewModel
 import com.example.dtandroid.presentation.viewmodels.HabitsViewModelFactory
 import kotlinx.android.synthetic.main.fragment_habits_list.habitsRecyclerView
-import kotlinx.android.synthetic.main.habits_list_item.*
-import java.util.*
+import javax.inject.Inject
 
-class HabitsListFragment(private val activity: Activity) : Fragment(), OnItemClick {
-    private val applicationComponent = (activity.application as HabitApplication)
+class HabitsListFragment : Fragment(), OnItemClick {
+    private val applicationComponent by lazy {
+        (requireActivity().application as HabitApplication)
         .applicationComponent
+    }
+
+    @Inject
+    lateinit var habitsViewModelFactory: HabitsViewModelFactory
+
     private val habitsViewModel: HabitsViewModel by viewModels {
-        return@viewModels HabitsViewModelFactory(
-            applicationComponent.getLoadAllHabitsWithDoneDatesUseCase(),
-            applicationComponent.getLoadRemoteHabitsUseCase(),
-            applicationComponent.getDoneRemoteHabitUseCase(),
-            applicationComponent.getDoneHabitUseCase(),
-            applicationComponent.getSaveHabitsWithDoneDatesUseCase()
-        )
+        return@viewModels habitsViewModelFactory
     }
 
     private lateinit var habitsListAdapter: HabitsListAdapter
@@ -42,6 +40,7 @@ class HabitsListFragment(private val activity: Activity) : Fragment(), OnItemCli
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        applicationComponent.inject(this)
         return inflater.inflate(R.layout.fragment_habits_list, container, false)
     }
 
@@ -50,14 +49,13 @@ class HabitsListFragment(private val activity: Activity) : Fragment(), OnItemCli
         type = arguments?.getSerializable(TYPE_BUNDLE_KEY) as Type
         habitsListAdapter =
             HabitsListAdapter(
-                habitsViewModel.getHabits { it.habit.type == type },
+                habitsViewModel.getHabits { it.habit.type == type }.toMutableList(),
                 this
             )
         habitsRecyclerView.adapter = habitsListAdapter
 
         habitsViewModel.getLiveData().observe(viewLifecycleOwner) { habits ->
-            habitsListAdapter.setHabitsList(habits.filter { it.habit.type == type })
-            habitsListAdapter.notifyDataSetChanged()
+            habitsListAdapter.updateHabitsListItems(habits.filter { it.habit.type == type })
         }
 
         habitsViewModel.tryLoadData()
@@ -73,17 +71,16 @@ class HabitsListFragment(private val activity: Activity) : Fragment(), OnItemCli
     }
 
     override fun onDoneButtonClick(habitWithDoneDates: HabitWithDoneDates) {
-        val textRes = if(habitWithDoneDates.doneDates.size >= habitWithDoneDates.habit.count - 1) {
+        val textRes = if (habitWithDoneDates.doneDates.size >= habitWithDoneDates.habit.count - 1) {
             if (habitWithDoneDates.habit.type == Type.Good)
                 resources.getText(R.string.goodHabitDoneMessage)
             else
                 resources.getText(R.string.badHabitDoneMessage)
-        }
-        else{
+        } else {
             if (habitWithDoneDates.habit.type == Type.Good)
-                "${resources.getText(R.string.goodHabitDoneMoreMessage)}: ${habitWithDoneDates.habit.count - habitWithDoneDates.doneDates.size}"
+                "${resources.getText(R.string.goodHabitDoneMoreMessage)}: ${habitWithDoneDates.habit.count - habitWithDoneDates.doneDates.size - 1}"
             else
-                "${resources.getText(R.string.badHabitDoneMoreMessage)}: ${habitWithDoneDates.habit.count - habitWithDoneDates.doneDates.size}"
+                "${resources.getText(R.string.badHabitDoneMoreMessage)}: ${habitWithDoneDates.habit.count - habitWithDoneDates.doneDates.size - 1}"
         }
 
         Toast.makeText(requireContext(), textRes, Toast.LENGTH_SHORT).show()
@@ -95,7 +92,7 @@ class HabitsListFragment(private val activity: Activity) : Fragment(), OnItemCli
         fun newInstance(activity: Activity, type: Type): HabitsListFragment {
             val args = Bundle()
             args.putSerializable(TYPE_BUNDLE_KEY, type)
-            val fragment = HabitsListFragment(activity)
+            val fragment = HabitsListFragment()
             fragment.arguments = args
             return fragment
         }
