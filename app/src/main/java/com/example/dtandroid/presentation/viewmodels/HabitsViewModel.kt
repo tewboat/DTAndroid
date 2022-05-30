@@ -1,12 +1,10 @@
 package com.example.dtandroid.presentation.viewmodels
 
 import androidx.lifecycle.*
-import com.example.domain.entities.DoneDate
 import com.example.domain.entities.Habit
 import com.example.domain.entities.relations.HabitWithDoneDates
 import com.example.domain.usecases.local.DoneHabitUseCase
 import com.example.domain.usecases.local.LoadAllHabitsWithDoneDatesUseCase
-import com.example.domain.usecases.local.SaveHabitsUseCase
 import com.example.domain.usecases.local.SaveHabitsWithDoneDatesUseCase
 import com.example.domain.usecases.remote.DoneRemoteHabitUseCase
 import com.example.domain.usecases.remote.LoadRemoteHabitsUseCase
@@ -14,7 +12,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
-import java.util.*
 import kotlin.collections.ArrayList
 
 

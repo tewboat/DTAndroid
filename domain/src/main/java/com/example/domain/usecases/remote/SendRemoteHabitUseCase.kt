@@ -1,6 +1,5 @@
 package com.example.domain.usecases.remote
 
-import android.util.Log
 import com.example.domain.entities.Habit
 import com.example.domain.interfaces.RemoteRepository
 import kotlinx.coroutines.CoroutineDispatcher
@@ -14,11 +13,8 @@ class SendRemoteHabitUseCase(
     suspend fun sendHabit(habit: Habit): String? {
         return withContext(dispatcher) {
             try {
-                val result = remoteRepository.put(habit).uid
-                Log.d("sendHabit", result.toString())
-                return@withContext result
+                return@withContext remoteRepository.put(habit).uid
             } catch (e: Exception) {
-                Log.d("sendHabit", e.toString())
                 return@withContext null
             }
         }

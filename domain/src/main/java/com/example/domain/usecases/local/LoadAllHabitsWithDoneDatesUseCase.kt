@@ -11,7 +11,7 @@ class LoadAllHabitsWithDoneDatesUseCase(
     private val habitRepository: DatabaseRepository<HabitWithDoneDates>,
     private val dispatcher: CoroutineDispatcher
 ) {
-    suspend fun loadHabits(): Flow<List<HabitWithDoneDates>> {
+    fun loadHabits(): Flow<List<HabitWithDoneDates>> {
         return habitRepository.getDataList()
             .flowOn(dispatcher)
     }

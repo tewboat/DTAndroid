@@ -5,13 +5,11 @@ import com.example.dtandroid.di.AppModule
 import com.example.dtandroid.di.ApplicationComponent
 import com.example.dtandroid.di.DaggerApplicationComponent
 
-class HabitApplication : Application() {
-    lateinit var applicationComponent: ApplicationComponent
-        private set
+open class HabitApplication : Application() {
+    val applicationComponent: ApplicationComponent by lazy { initializeComponent() }
 
-    override fun onCreate(){
-        super.onCreate()
-        applicationComponent = DaggerApplicationComponent
+    protected open fun initializeComponent(): ApplicationComponent {
+        return DaggerApplicationComponent
             .builder()
             .appModule(AppModule(this))
             .build()

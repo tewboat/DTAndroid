@@ -1,6 +1,5 @@
 package com.example.domain.usecases.remote
 
-import android.util.Log
 import com.example.domain.entities.relations.HabitWithDoneDates
 import com.example.domain.interfaces.RemoteRepository
 import kotlinx.coroutines.CoroutineDispatcher
@@ -16,7 +15,6 @@ class LoadRemoteHabitsUseCase(
             try {
                 return@withContext remoteRepository.getAll()
             } catch (e: Exception) {
-                Log.d("Retrofit", e.message.toString())
                 return@withContext null
             }
         }

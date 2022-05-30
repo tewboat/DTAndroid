@@ -16,7 +16,7 @@ class UpdateHabitUseCase(
                 habitRepository.update(habit)
                 return@withContext true
             } catch (e: Exception){
-                return@withContext false;
+                return@withContext false
             }
         }
     }

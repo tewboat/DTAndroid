@@ -9,7 +9,6 @@ import com.example.data.repositories.HabitRemoteRepository
 import com.example.domain.entities.DoneDate
 import com.example.domain.entities.Habit
 import com.example.domain.entities.relations.HabitWithDoneDates
-import com.example.domain.usecases.remote.DeleteRemoteHabitUseCase
 import com.example.domain.usecases.remote.DoneRemoteHabitUseCase
 import com.example.domain.usecases.remote.LoadRemoteHabitsUseCase
 import com.example.domain.usecases.remote.SendRemoteHabitUseCase
@@ -23,7 +22,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
-class RemoteModule {
+open class RemoteModule {
 
     @Provides
     fun provideLoadRemoteHabitsUseCase(habitRemoteRepository: HabitRemoteRepository) : LoadRemoteHabitsUseCase {
@@ -31,18 +30,13 @@ class RemoteModule {
     }
 
     @Provides
-    fun provideSendRemoteHabitUseCase(habitRemoteRepository: HabitRemoteRepository) : SendRemoteHabitUseCase {
+    open fun provideSendRemoteHabitUseCase(habitRemoteRepository: HabitRemoteRepository) : SendRemoteHabitUseCase {
         return SendRemoteHabitUseCase(habitRemoteRepository, Dispatchers.IO)
     }
 
     @Provides
     fun provideDoneRemoteHabitUseCase(habitRemoteRepository: HabitRemoteRepository) : DoneRemoteHabitUseCase {
         return DoneRemoteHabitUseCase(habitRemoteRepository, Dispatchers.IO)
-    }
-
-    @Provides
-    fun provideDeleteRemoteHabitUseCase(habitRemoteRepository: HabitRemoteRepository) : DeleteRemoteHabitUseCase {
-        return DeleteRemoteHabitUseCase(habitRemoteRepository, Dispatchers.IO)
     }
 
     @Provides

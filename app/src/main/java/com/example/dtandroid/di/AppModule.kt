@@ -9,8 +9,6 @@ import com.example.data.repositories.HabitWithDoneDatesDatabaseRepository
 import com.example.domain.usecases.local.*
 import com.example.domain.usecases.remote.DoneRemoteHabitUseCase
 import com.example.domain.usecases.remote.LoadRemoteHabitsUseCase
-import com.example.dtandroid.presentation.ui.HabitsListFragment
-import com.example.dtandroid.presentation.viewmodels.HabitViewModelFactory
 import com.example.dtandroid.presentation.viewmodels.HabitsViewModelFactory
 import dagger.Module
 import dagger.Provides
@@ -18,7 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import javax.inject.Singleton
 
 @Module()
-class AppModule(private val applicationContext: Context) {
+open class AppModule(private val applicationContext: Context) {
 
     @Provides
     @Singleton
@@ -54,23 +52,8 @@ class AppModule(private val applicationContext: Context) {
     }
 
     @Provides
-    fun provideLoadAllHabitsUseCase(habitRepository: HabitDatabaseRepository): LoadAllHabitsUseCase {
-        return LoadAllHabitsUseCase(habitRepository, Dispatchers.IO)
-    }
-
-    @Provides
     fun provideSaveHabitUseCase(habitRepository: HabitDatabaseRepository): SaveHabitUseCase {
         return SaveHabitUseCase(habitRepository, Dispatchers.IO)
-    }
-
-    @Provides
-    fun provideSaveHabitsUseCase(habitRepository: HabitDatabaseRepository): SaveHabitsUseCase {
-        return SaveHabitsUseCase(habitRepository, Dispatchers.IO)
-    }
-
-    @Provides
-    fun provideDeleteHabitUseCase(habitRepository: HabitDatabaseRepository): DeleteHabitUseCase {
-        return DeleteHabitUseCase(habitRepository, Dispatchers.IO)
     }
 
     @Provides
@@ -84,17 +67,17 @@ class AppModule(private val applicationContext: Context) {
     }
 
     @Provides
-    fun provideHabitDatabaseRepository(habitsDatabase: HabitsDatabase): HabitDatabaseRepository {
+    open fun provideHabitDatabaseRepository(habitsDatabase: HabitsDatabase): HabitDatabaseRepository {
         return HabitDatabaseRepository(habitsDatabase.habitDao())
     }
 
     @Provides
-    fun provideHabitWithDoneDatesDatabaseRepository(habitDatabase: HabitsDatabase): HabitWithDoneDatesDatabaseRepository {
+    open fun provideHabitWithDoneDatesDatabaseRepository(habitDatabase: HabitsDatabase): HabitWithDoneDatesDatabaseRepository {
         return HabitWithDoneDatesDatabaseRepository(habitDatabase.habitDao())
     }
 
     @Provides
-    fun provideDoneDatesDatabaseRepository(habitsDatabase: HabitsDatabase): DoneDateDatabaseRepository {
+    open fun provideDoneDatesDatabaseRepository(habitsDatabase: HabitsDatabase): DoneDateDatabaseRepository {
         return DoneDateDatabaseRepository(habitsDatabase.habitDao())
     }
 

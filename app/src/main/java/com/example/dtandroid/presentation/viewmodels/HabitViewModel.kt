@@ -93,6 +93,7 @@ class HabitViewModelFactory(
     private val uid: String
 ) :
     ViewModelProvider.Factory {
+
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (uid.isNotEmpty())
             return HabitViewModel(

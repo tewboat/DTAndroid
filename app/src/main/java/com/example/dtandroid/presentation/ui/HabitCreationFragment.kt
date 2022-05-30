@@ -41,8 +41,7 @@ class HabitCreationFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        val application = context.applicationContext as HabitApplication
-        habitViewModel = getHabitViewModel(application.applicationComponent)
+        habitViewModel = getHabitViewModel(applicationComponent)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
