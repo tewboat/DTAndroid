@@ -30,11 +30,6 @@ class ViewPagerFragment : Fragment() {
             }.attach()
         }
 
-//        FilterDialogFragment().show(childFragmentManager, "bottomSheet")
-//        val bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet).apply {
-//            peekHeight = 100
-//            state = BottomSheetBehavior.STATE_COLLAPSED
-//        }
         setOnClickListeners()
     }
 
@@ -42,7 +37,8 @@ class ViewPagerFragment : Fragment() {
         floatingAddButton.setOnClickListener {
             val action =
                 ViewPagerFragmentDirections.actionViewPagerFragmentToHabitCreationFragment(String())
-            findNavController().navigate(action)
+            val navController = findNavController()
+            navController.navigate(action)
         }
     }
 }

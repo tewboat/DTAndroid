@@ -5,7 +5,7 @@ import com.example.domain.entities.relations.HabitWithDoneDates
 import com.example.domain.interfaces.DatabaseRepository
 import kotlinx.coroutines.flow.Flow
 
-class HabitWithDoneDatesDatabaseRepository(private val dao: HabitDao) : DatabaseRepository<HabitWithDoneDates> {
+open class HabitWithDoneDatesDatabaseRepository(private val dao: HabitDao) : DatabaseRepository<HabitWithDoneDates> {
     override fun getDataList(): Flow<List<HabitWithDoneDates>> {
         return dao.getAllHabitsWithDoneDates()
     }
